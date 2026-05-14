@@ -1,0 +1,59 @@
+<div class="projects-header">
+  <h1>
+    <mat-icon>folder_open</mat-icon>
+    Proyectos
+  </h1>
+  <button mat-raised-button color="primary" (click)="openCreateDialog()">
+    <mat-icon>add</mat-icon> Nuevo Proyecto
+  </button>
+</div>
+
+<!-- Error de conexión -->
+<div *ngIf="error" class="error-banner">
+  <mat-icon>error_outline</mat-icon>
+  <span>{{ error }}</span>
+  <button mat-button (click)="loadProjects()">
+    <mat-icon>refresh</mat-icon> Reintentar
+  </button>
+</div>
+
+<!-- Spinner solo en la primera carga -->
+<div *ngIf="loading && projects.length === 0 && !error" class="loading-container">
+  <mat-spinner diameter="48"></mat-spinner>
+  <p>Conectando con el servidor...</p>
+</div>
+
+<!-- Lista de proyectos -->
+<div class="projects-grid">
+  <mat-card *ngFor="let project of projects" class="project-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>folder</mat-icon>
+      <mat-card-title>{{ project.name }}</mat-card-title>
+      <mat-card-subtitle>
+        Creado: {{ project.createdAt | date:'dd/MM/yyyy HH:mm' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="description">{{ project.description || 'Sin descripción' }}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="primary" (click)="viewTasks(project.id!)">
+        <mat-icon>assignment</mat-icon> Ver Tareas
+      </button>
+      <button mat-icon-button color="accent" (click)="openEditDialog(project)" matTooltip="Editar">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="deleteProject(project)" matTooltip="Eliminar">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- Sin proyectos -->
+<div *ngIf="!loading && !error && projects.length === 0" class="empty-state">
+  <mat-icon>folder_off</mat-icon>
+  <p>No hay proyectos. ¡Crea el primero!</p>
+</div>

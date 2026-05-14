@@ -1,0 +1,22 @@
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3f51b5;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  min-width: 400px;
+}
+
+mat-dialog-actions button {
+  min-width: 100px;
+}
+
+mat-spinner {
+  display: inline-block;
+}

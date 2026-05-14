@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'add_circle' }}</mat-icon>
+  {{ isEdit ? 'Editar Proyecto' : 'Nuevo Proyecto' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Proyecto</mat-label>
+      <input matInput formControlName="name" placeholder="Ej: Sistema de Facturación">
+      <mat-icon matSuffix>folder</mat-icon>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+      <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"
+        placeholder="Descripción del proyecto..."
+        rows="4"></textarea>
+      <mat-icon matSuffix>description</mat-icon>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()" [disabled]="saving">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="submit()"
+    [disabled]="form.invalid || saving">
+    <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
+    <span *ngIf="!saving">{{ isEdit ? 'Actualizar' : 'Crear' }}</span>
+  </button>
+</mat-dialog-actions>
